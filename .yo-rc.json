@@ -1,0 +1,18 @@
+{
+  "@microsoft/generator-sharepoint": {
+    "plusBeta": false,
+    "isCreatingSolution": true,
+    "nodeVersion": "22.20.0",
+    "sdksVersions": {},
+    "version": "1.21.1",
+    "libraryName": "sp-first-project",
+    "libraryId": "c33cd770-7a37-4574-9770-5fee4994e19f",
+    "environment": "spo",
+    "packageManager": "npm",
+    "solutionName": "sp-first-project",
+    "solutionShortDescription": "sp-first-project description",
+    "skipFeatureDeployment": true,
+    "isDomainIsolated": false,
+    "componentType": "webpart"
+  }
+}

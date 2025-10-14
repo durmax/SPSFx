@@ -1,0 +1,40 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/package-solution.schema.json",
+  "solution": {
+    "name": "sp-first-project-client-side-solution",
+    "id": "c33cd770-7a37-4574-9770-5fee4994e19f",
+    "version": "1.0.0.0",
+    "includeClientSideAssets": true,
+    "skipFeatureDeployment": true,
+    "isDomainIsolated": false,
+    "developer": {
+      "name": "",
+      "websiteUrl": "",
+      "privacyUrl": "",
+      "termsOfUseUrl": "",
+      "mpnId": "Undefined-1.21.1"
+    },
+    "metadata": {
+      "shortDescription": {
+        "default": "sp-first-project description"
+      },
+      "longDescription": {
+        "default": "sp-first-project description"
+      },
+      "screenshotPaths": [],
+      "videoUrl": "",
+      "categories": []
+    },
+    "features": [
+      {
+        "title": "sp-first-project Feature",
+        "description": "The feature that activates elements of the sp-first-project solution.",
+        "id": "3bf6e842-ca97-4ab0-b349-5ccf93e2bfce",
+        "version": "1.0.0.0"
+      }
+    ]
+  },
+  "paths": {
+    "zippedPackage": "solution/sp-first-project.sppkg"
+  }
+}
