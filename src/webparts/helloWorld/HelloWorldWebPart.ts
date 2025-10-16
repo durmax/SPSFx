@@ -180,7 +180,9 @@ private _renderList(items: ISPList[]): void {
             groupName: strings.BasicGroupName,
             groupFields: [
             PropertyPaneTextField('description', {
-              label: 'Description'
+              label: 'Description',
+              placeholder: 'Enter your description here',
+              onGetErrorMessage: this.validateDescription.bind(this)
             }),
             PropertyPaneTextField('test', {
               label: 'Multi-line Text Field',
@@ -209,4 +211,18 @@ private _renderList(items: ISPList[]): void {
     ]
   };
 }
+
+  private validateDescription(value: string | undefined): string {
+    // Guard against undefined or null values before calling string methods
+    if (value === null || value === undefined || value.trim().length === 0) {
+      return 'Provide a description';
+    }
+
+    if (value.trim().length > 40) {
+      return 'Description should not be longer than 40 characters';
+    }
+
+    return '';
+  }
+
 }
