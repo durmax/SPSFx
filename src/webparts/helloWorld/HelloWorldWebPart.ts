@@ -13,12 +13,26 @@ import { escape } from '@microsoft/sp-lodash-subset';
 import styles from './HelloWorldWebPart.module.scss';
 import * as strings from 'HelloWorldWebPartStrings';
 
+import {
+  SPHttpClient,
+  SPHttpClientResponse
+} from '@microsoft/sp-http';
+
 export interface IHelloWorldWebPartProps {
   description: string;
   test: string;
   test1: boolean;
   test2: string;
   test3: boolean;
+}
+
+export interface ISPLists {
+  value: ISPList[];
+}
+
+export interface ISPList {
+  Title: string;
+  Id: string;
 }
 
 export default class HelloWorldWebPart extends BaseClientSideWebPart<IHelloWorldWebPartProps> {
@@ -40,6 +54,7 @@ export default class HelloWorldWebPart extends BaseClientSideWebPart<IHelloWorld
         <p>${escape(this.properties.test2)}</p>
         <p>${this.properties.test3}</p>
         </div>
+        <div>Loading from: <strong>${escape(this.context.pageContext.web.title)}</strong></div>
       </div>
       <div>
         <h3>Welcome to SharePoint Framework!</h3>
@@ -57,8 +72,12 @@ export default class HelloWorldWebPart extends BaseClientSideWebPart<IHelloWorld
             <li><a href="https://aka.ms/m365pnp" target="_blank">Microsoft 365 Developer Community</a></li>
           </ul>
       </div>
+      <div id="spListContainer" />
     </section>`;
+
+    this._renderListAsync();
   }
+
 
   protected onInit(): Promise<void> {
     return this._getEnvironmentMessage().then(message => {
@@ -67,6 +86,38 @@ export default class HelloWorldWebPart extends BaseClientSideWebPart<IHelloWorld
   }
 
 
+
+private _renderListAsync(): void {
+  this._getListData()
+    .then((response) => {
+      this._renderList(response.value);
+    })
+    .catch(() => {});
+}
+
+private _getListData(): Promise<ISPLists> {
+  return this.context.spHttpClient.get(`${this.context.pageContext.web.absoluteUrl}/_api/web/lists?$filter=Hidden eq false`, SPHttpClient.configurations.v1)
+    .then((response: SPHttpClientResponse) => {
+      return response.json();
+    })
+    .catch(() => {});
+}
+
+private _renderList(items: ISPList[]): void {
+  let html: string = '';
+  items.forEach((item: ISPList) => {
+    html += `
+  <ul class="${styles.list}">
+    <li class="${styles.listItem}">
+      <span class="ms-font-l">${item.Title}</span>
+    </li>
+  </ul>`;
+  });
+
+  if(this.domElement.querySelector('#spListContainer') != null) {
+    this.domElement.querySelector('#spListContainer')!.innerHTML = html;
+  }
+}
 
   private _getEnvironmentMessage(): Promise<string> {
     if (!!this.context.sdks.microsoftTeams) { // running in Teams, office.com or Outlook
